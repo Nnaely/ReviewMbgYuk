@@ -14,6 +14,8 @@ penanganan lanjutan laporan belum tersedia.
 - MySQL/MariaDB untuk tahap pengembangan data berikutnya.
 - Node.js dan npm jika ingin menjalankan Vite.
 
+Halaman aplikasi menggunakan stylesheet responsif untuk layar ponsel dan desktop.
+
 ## Menjalankan
 
 ```powershell

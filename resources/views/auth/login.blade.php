@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Masuk | MBG Komunitas</title>
     <style>
         body { margin: 0; background: #f7f7f2; color: #252b26; font-family: Arial, sans-serif; }
