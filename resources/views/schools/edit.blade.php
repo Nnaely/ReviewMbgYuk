@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Edit Sekolah | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell app-shell--narrow">
         <a href="{{ route('schools.index') }}">Kembali ke daftar sekolah</a>
+        <p class="app-eyebrow">Koordinator · Data pendukung</p>
         <h1>Edit Data Sekolah</h1>
 
         @if ($errors->any())
@@ -32,5 +34,6 @@
             <button type="submit">Simpan perubahan</button>
         </form>
     </main>
+    @include('partials.app-footer')
 </body>
 </html>

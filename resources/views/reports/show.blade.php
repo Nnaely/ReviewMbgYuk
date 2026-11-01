@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Detail Laporan | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell">
         <a href="{{ route('reports.inbox') }}">Kembali ke laporan masuk</a>
+        <p class="app-eyebrow">Tinjauan laporan</p>
         <h1>Detail Laporan</h1>
 
         @if (session('status'))
@@ -55,7 +57,7 @@
                 <dd>{{ $report->referrer?->name ?? 'Koordinator' }} · {{ $report->referred_at->format('d-m-Y H:i') }}</dd>
             @endif
 
-            <dt>Isi laporan</dt>
+            <dt>Ulasan atau isi kejadian</dt>
             <dd>{{ $report->description }}</dd>
 
             @if ($report->photo_path)
@@ -125,5 +127,6 @@
             </form>
         @endif
     </main>
+    @include('partials.app-footer')
 </body>
 </html>

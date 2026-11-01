@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Distribusi Makanan | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell">
+        <p class="app-eyebrow">Pemantauan · Jadwal</p>
         <h1>Daftar Distribusi Makanan</h1>
         <p>Jadwal distribusi makanan untuk sekolah.</p>
 
@@ -114,5 +116,6 @@
 
         {{ $distributions->links() }}
     </main>
+    @include('partials.app-footer')
 </body>
 </html>

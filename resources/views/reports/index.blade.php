@@ -6,10 +6,13 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Laporan | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell">
         <a href="{{ route('area.pelapor') }}">Kembali ke dasbor</a>
-        <h1>Laporan Distribusi</h1>
+        <p class="app-eyebrow">Pelapor · Distribusi MBG</p>
+        <h1>Tulis Ulasan MBG</h1>
+        <p>Ceritakan pengalaman atau kejadian pada jadwal distribusi yang dipilih. Ulasan Anda akan masuk sebagai laporan untuk ditinjau Pemantau.</p>
 
         @if (session('status'))
             <p role="status">{{ session('status') }}</p>
@@ -27,16 +30,16 @@
             @csrf
             @include('reports._distribution_fields')
 
-            <label for="description">Isi laporan</label>
-            <textarea id="description" name="description" rows="5" minlength="10" maxlength="2000" required>{{ old('description') }}</textarea>
+            <label for="description">Ulasan atau isi kejadian</label>
+            <textarea id="description" name="description" rows="5" minlength="10" maxlength="2000" placeholder="Jelaskan pengalaman atau kejadian yang ingin disampaikan..." required>{{ old('description') }}</textarea>
 
             <label for="photo">Bukti pendukung (JPG, JPEG, PNG, atau PDF; maksimal 2 MB)</label>
             <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,application/pdf">
 
-            <button type="submit">Kirim laporan</button>
+            <button type="submit">Kirim ulasan</button>
         </form>
 
-        <h2>Laporan Saya</h2>
+        <h2>Ulasan dan laporan saya</h2>
         <form method="GET" action="{{ route('reports.index') }}">
             <label for="school_filter">Sekolah</label>
             <select id="school_filter" name="school_id">
@@ -94,6 +97,7 @@
 
         {{ $reports->links() }}
     </main>
+    @include('partials.app-footer')
     <script src="{{ asset('js/distribution-select.js') }}" defer></script>
 </body>
 </html>

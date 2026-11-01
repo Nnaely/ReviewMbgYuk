@@ -6,10 +6,13 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Laporan Masuk | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell">
         <a href="{{ auth()->user()->isPemantau() ? route('area.pemantau') : route('area.koordinator') }}">Kembali ke dasbor</a>
+        <p class="app-eyebrow">Pemantau · Koordinator</p>
         <h1>Laporan Masuk</h1>
+        <p>Tinjau laporan yang dikirim Pelapor, lalu buka detail untuk melihat konteks distribusinya.</p>
 
         @if ($errors->any())
             <ul role="alert">
@@ -49,12 +52,11 @@
         </form>
 
         @forelse ($reports as $report)
-            <article>
+            <article class="app-report-card">
                 <h2>{{ $report->school->name }}</h2>
-                <p>Pelapor: {{ $report->reporter->name }}</p>
-                <p>Status: {{ ucfirst($report->status) }}</p>
-                <small>{{ $report->created_at->format('d-m-Y H:i') }}</small>
-                <p><a href="{{ route('reports.show', $report) }}">Lihat detail laporan</a></p>
+                <p class="app-report-meta">Pelapor: {{ $report->reporter->name }} <span>·</span> {{ $report->created_at->format('d-m-Y H:i') }}</p>
+                <p>Status: <strong>{{ ucfirst($report->status) }}</strong></p>
+                <p><a href="{{ route('reports.show', $report) }}">Tinjau detail laporan <span aria-hidden="true">↗</span></a></p>
             </article>
         @empty
             <p>Belum ada laporan masuk.</p>
@@ -62,5 +64,6 @@
 
         {{ $reports->links() }}
     </main>
+    @include('partials.app-footer')
 </body>
 </html>

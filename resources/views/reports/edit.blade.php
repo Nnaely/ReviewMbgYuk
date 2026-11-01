@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Perbaiki Laporan | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell">
         <a href="{{ route('reports.index') }}">Kembali ke laporan saya</a>
-        <h1>Perbaiki Laporan</h1>
+        <p class="app-eyebrow">Pelapor · Perbaikan</p>
+        <h1>Perbaiki Ulasan</h1>
         <p>Laporan hanya dapat diperbaiki selama statusnya masih Baru.</p>
 
         @if ($errors->any())
@@ -25,7 +27,7 @@
             @method('PATCH')
             @include('reports._distribution_fields')
 
-            <label for="description">Isi laporan</label>
+            <label for="description">Ulasan atau isi kejadian</label>
             <textarea id="description" name="description" rows="5" minlength="10" maxlength="2000" required>{{ old('description', $report->description) }}</textarea>
 
             @if ($report->photo_path)
@@ -37,6 +39,7 @@
             <button type="submit">Simpan perbaikan</button>
         </form>
     </main>
+    @include('partials.app-footer')
     <script src="{{ asset('js/distribution-select.js') }}" defer></script>
 </body>
 </html>

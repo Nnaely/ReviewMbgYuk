@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Edit Jadwal Distribusi | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell app-shell--narrow">
         <a href="{{ route('distributions.index') }}">Kembali ke daftar distribusi</a>
+        <p class="app-eyebrow">Koordinator · Jadwal distribusi</p>
         <h1>Edit Jadwal Distribusi</h1>
 
         @if ($errors->any())
@@ -34,5 +36,6 @@
             <button type="submit">Simpan perubahan</button>
         </form>
     </main>
+    @include('partials.app-footer')
 </body>
 </html>

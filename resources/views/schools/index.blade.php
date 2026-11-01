@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Data Sekolah | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell">
         <a href="{{ route('area.koordinator') }}">Kembali ke dasbor</a>
+        <p class="app-eyebrow">Koordinator · Data pendukung</p>
         <h1>Pengelolaan Data Sekolah</h1>
 
         @if (session('status'))
@@ -37,7 +39,7 @@
 
         <h2>Daftar Sekolah</h2>
         @forelse ($schools as $school)
-            <article>
+            <article class="app-school-card">
                 <h3>{{ $school->name }}</h3>
                 <p>{{ $school->address }}</p>
                 <a href="{{ route('schools.edit', $school) }}">Edit sekolah</a>
@@ -46,5 +48,6 @@
             <p>Belum ada data sekolah.</p>
         @endforelse
     </main>
+    @include('partials.app-footer')
 </body>
 </html>

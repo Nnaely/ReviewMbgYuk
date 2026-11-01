@@ -6,10 +6,13 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Rekap Laporan | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell">
         <a href="{{ auth()->user()->isPemantau() ? route('area.pemantau') : route('area.koordinator') }}">Kembali ke dasbor</a>
+        <p class="app-eyebrow">Pemantau · Koordinator</p>
         <h1>Rekap Laporan</h1>
+        <p>Ringkasan laporan tersimpan menurut sekolah dan status.</p>
 
         <form method="GET" action="{{ route('reports.summary') }}">
             <label for="school_id">Filter sekolah</label>
@@ -67,5 +70,6 @@
             </table>
         </div>
     </main>
+    @include('partials.app-footer')
 </body>
 </html>

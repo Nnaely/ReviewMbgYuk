@@ -84,7 +84,7 @@ class ReportController extends Controller
 
         return redirect()
             ->route('reports.index')
-            ->with('status', 'Laporan berhasil dikirim.');
+            ->with('status', 'Ulasan berhasil dikirim sebagai laporan.');
     }
 
     public function edit(Request $request, Report $report): View

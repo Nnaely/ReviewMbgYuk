@@ -6,25 +6,23 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Dasbor {{ $namaPeran }} | ReviewMbgYuk!</title>
 </head>
-<body>
-    <main>
-        <h1>Dasbor {{ $namaPeran }}</h1>
-        <p>Selamat datang, {{ auth()->user()->name }}.</p>
+<body class="app-page">
+    @include('partials.app-header')
+    <main class="app-shell">
+        <p class="app-eyebrow">ReviewMbgYuk! · {{ $namaPeran }}</p>
+        <h1>Selamat datang, {{ auth()->user()->name }}.</h1>
+        <p>Dasbor {{ strtolower($namaPeran) }}.</p>
         <section aria-labelledby="ringkasan-laporan">
             <h2 id="ringkasan-laporan">Ringkasan {{ auth()->user()->isPelapor() ? 'laporan saya' : 'laporan masuk' }}</h2>
-            <dl>
-                <dt>Total laporan</dt>
-                <dd>{{ $jumlahLaporan }}</dd>
-                <dt>Baru</dt>
-                <dd>{{ $jumlahPerStatus['baru'] }}</dd>
-                <dt>Diproses</dt>
-                <dd>{{ $jumlahPerStatus['diproses'] }}</dd>
-                <dt>Selesai</dt>
-                <dd>{{ $jumlahPerStatus['selesai'] }}</dd>
-            </dl>
+            <div class="app-stats">
+                <div><span>Total laporan</span><strong>{{ $jumlahLaporan }}</strong></div>
+                <div><span>Baru</span><strong>{{ $jumlahPerStatus['baru'] }}</strong></div>
+                <div><span>Diproses</span><strong>{{ $jumlahPerStatus['diproses'] }}</strong></div>
+                <div><span>Selesai</span><strong>{{ $jumlahPerStatus['selesai'] }}</strong></div>
+            </div>
         </section>
         @if (auth()->user()->isPelapor())
-            <p><a href="{{ route('reports.index') }}">Buat laporan</a></p>
+            <p class="app-primary-action"><a href="{{ route('reports.index') }}">Tulis ulasan <span aria-hidden="true">↗</span></a></p>
             <section aria-labelledby="notifikasi-laporan">
                 <h2 id="notifikasi-laporan">Notifikasi tindak lanjut</h2>
                 <p>{{ $unreadNotificationCount }} notifikasi belum dibaca</p>
@@ -45,17 +43,23 @@
             </section>
         @endif
         @if (auth()->user()->isPemantau() || auth()->user()->isKoordinator())
-            <p><a href="{{ route('distributions.index') }}">Lihat distribusi makanan</a></p>
-            <p><a href="{{ route('reports.inbox') }}">Lihat laporan masuk</a></p>
-            <p><a href="{{ route('reports.summary') }}">Lihat rekap laporan</a></p>
-        @endif
-        @if (auth()->user()->isKoordinator())
-            <p><a href="{{ route('schools.index') }}">Kelola data sekolah</a></p>
+            <section aria-labelledby="ruang-kerja">
+                <h2 id="ruang-kerja">Ruang kerja</h2>
+                <div class="app-action-grid">
+                    <a href="{{ route('reports.inbox') }}"><strong>Laporan masuk</strong><span>Tinjau isi dan catatan laporan <b aria-hidden="true">↗</b></span></a>
+                    <a href="{{ route('distributions.index') }}"><strong>Distribusi makanan</strong><span>Lihat jadwal sekolah <b aria-hidden="true">↗</b></span></a>
+                    <a href="{{ route('reports.summary') }}"><strong>Rekap laporan</strong><span>Ringkasan berdasarkan sekolah <b aria-hidden="true">↗</b></span></a>
+                    @if (auth()->user()->isKoordinator())
+                        <a href="{{ route('schools.index') }}"><strong>Data sekolah</strong><span>Tambah atau perbarui data <b aria-hidden="true">↗</b></span></a>
+                    @endif
+                </div>
+            </section>
         @endif
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit">Keluar</button>
         </form>
     </main>
+    @include('partials.app-footer')
 </body>
 </html>

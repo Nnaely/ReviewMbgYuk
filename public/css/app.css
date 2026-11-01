@@ -401,6 +401,33 @@ small {
     font-size: 13px;
 }
 
+.landing-cta {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.4rem;
+    padding: 0 1.1rem;
+    color: #fff !important;
+    background: #292824;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.landing-cta:hover {
+    background: #4a4842;
+}
+
+.landing-intro-copy > p.landing-cta-note {
+    margin-top: 0.6rem;
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+}
+
 .landing-intro {
     padding-top: 28px;
 }
@@ -656,5 +683,317 @@ small {
 @media (prefers-reduced-motion: reduce) {
     .landing-story-image img {
         transition: none;
+    }
+}
+
+.app-page {
+    min-height: 100vh;
+    background: #e8e8e6;
+    color: #292824;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.app-page > .landing-header,
+.app-page > .app-shell,
+.app-page > .landing-footer {
+    width: min(100% - 2rem, 900px);
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: clamp(1.25rem, 4.5vw, 2.5rem);
+    padding-left: clamp(1.25rem, 4.5vw, 2.5rem);
+    background: #fff;
+}
+
+.app-page > .landing-header {
+    margin-top: 1.5rem;
+    border-bottom: 0;
+    box-shadow: 0 12px 32px rgb(35 35 32 / 8%);
+}
+
+.app-page > main.app-shell {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: clamp(2rem, 5vw, 3.25rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 12px 32px rgb(35 35 32 / 8%);
+}
+
+.app-page > .app-shell--narrow {
+    max-width: 720px;
+}
+
+.app-page > .app-shell--compact {
+    min-height: 420px;
+}
+
+.app-page .app-shell > h1 {
+    margin: 0.5rem 0 0.75rem;
+    color: #292824;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.8rem, 4vw, 2.35rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+}
+
+.app-page .app-eyebrow {
+    margin: 1.25rem 0 0.4rem;
+    color: #77746e;
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.app-page .app-shell > p:not(.app-eyebrow),
+.app-page .app-shell article p {
+    color: #68655e;
+}
+
+.app-page .app-shell h2 {
+    margin: 2.3rem 0 1rem;
+    color: #292824;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+}
+
+.app-page .app-shell h3 {
+    color: #292824;
+}
+
+.app-page .app-shell > a:first-child {
+    color: #6d6961;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.app-page .app-shell > a:first-child:hover {
+    color: #252420;
+    text-decoration: underline;
+}
+
+.app-page .app-shell section {
+    margin: 2.25rem 0;
+}
+
+.app-page .app-shell form {
+    max-width: 720px;
+    gap: 0.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border-color: #e8e6e1;
+    border-radius: 0;
+    background: #fcfbf9;
+}
+
+.app-page .app-shell label {
+    color: #3b3934;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.app-page .app-shell input,
+.app-page .app-shell select,
+.app-page .app-shell textarea {
+    border-color: #d8d5ce;
+    border-radius: 0;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+}
+
+.app-page .app-shell input:focus,
+.app-page .app-shell select:focus,
+.app-page .app-shell textarea:focus {
+    outline-color: rgb(41 40 36 / 18%);
+}
+
+.app-page .app-shell button {
+    min-height: 42px;
+    border-color: #292824;
+    border-radius: 0;
+    background: #292824;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.app-page .app-shell button:hover {
+    border-color: #4a4842;
+    background: #4a4842;
+}
+
+.app-page .app-shell article {
+    border-color: #e8e6e1;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.app-page .app-shell table {
+    margin-top: 1.75rem;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+.app-page .app-shell th {
+    color: #383630;
+    background: #f4f3f0;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.app-page .app-shell td,
+.app-page .app-shell th {
+    border-color: #e8e6e1;
+}
+
+.app-page .app-shell img {
+    border-radius: 0;
+}
+
+.app-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid #e8e6e1;
+    border-bottom: 1px solid #e8e6e1;
+}
+
+.app-stats > div {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1.1rem 1rem 1.1rem 0;
+}
+
+.app-stats > div + div {
+    padding-left: 1rem;
+    border-left: 1px solid #e8e6e1;
+}
+
+.app-stats span {
+    color: #706d66;
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.app-stats strong {
+    color: #292824;
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+.app-action-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.app-action-grid a {
+    display: grid;
+    min-height: 96px;
+    align-content: space-between;
+    gap: 0.8rem;
+    padding: 1rem;
+    border: 1px solid #e8e6e1;
+    color: #292824;
+    text-decoration: none;
+}
+
+.app-action-grid a:hover {
+    background: #f8f7f4;
+}
+
+.app-action-grid strong {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.app-action-grid span {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    color: #706d66;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+}
+
+.app-primary-action a {
+    display: inline-block;
+    padding: 0.8rem 1rem;
+    color: #fff;
+    background: #292824;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.app-primary-action a:hover {
+    background: #4a4842;
+}
+
+.app-report-meta {
+    font-size: 11px;
+}
+
+.app-error {
+    color: #a12727 !important;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+.app-page > .app-footer {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 680px) {
+    .app-page > .landing-header,
+    .app-page > .app-shell,
+    .app-page > .landing-footer {
+        width: 100%;
+        padding-right: 1.1rem;
+        padding-left: 1.1rem;
+    }
+
+    .app-page > .landing-header {
+        margin-top: 0;
+        box-shadow: none;
+    }
+
+    .app-page > main.app-shell {
+        padding-top: 2rem;
+        padding-bottom: 2.5rem;
+        box-shadow: none;
+    }
+
+    .app-page .app-shell button {
+        width: fit-content;
+    }
+
+    .app-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .app-stats > div:nth-child(3) {
+        padding-left: 0;
+        border-left: 0;
+        border-top: 1px solid #e8e6e1;
+    }
+
+    .app-stats > div:nth-child(4) {
+        border-top: 1px solid #e8e6e1;
+    }
+
+    .app-action-grid {
+        grid-template-columns: 1fr;
     }
 }

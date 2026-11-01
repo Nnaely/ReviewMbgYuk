@@ -46,6 +46,10 @@
                 <p class="landing-eyebrow">Makan Bergizi Gratis · Pemantauan Bersama</p>
                 <h1>Setiap porsi, layak dipantau.</h1>
                 <p>Ruang bersama untuk melaporkan, memeriksa, dan menindaklanjuti distribusi makanan bergizi di sekolah.</p>
+                @if (auth()->guest() || auth()->user()->isPelapor())
+                    <a class="landing-cta" href="{{ route('reports.index') }}">{{ auth()->guest() ? 'Masuk untuk menulis ulasan' : 'Tulis ulasan' }} <span aria-hidden="true">↗</span></a>
+                    <p class="landing-cta-note">Ulasan dikirim sebagai laporan dan ditinjau oleh Pemantau.</p>
+                @endif
             </div>
             <a class="landing-photo-credit" href="https://www.bgn.go.id/news/foto/mbg-prasmanan" target="_blank" rel="noopener noreferrer">Foto: Badan Gizi Nasional · Lihat sumber</a>
         </section>
