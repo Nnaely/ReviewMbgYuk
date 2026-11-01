@@ -131,6 +131,9 @@ penerusan (sekolah, SPPG, fasilitas kesehatan, atau pihak terkait lain) beserta 
 penerusan hanya dapat dicatat satu kali dan status laporan tetap berada dalam alur pemantauan.
 Dasbor setiap peran menampilkan jumlah laporan keseluruhan serta jumlah per status;
 ringkasan pelapor hanya menghitung laporan miliknya.
+Seeder laporan membuat tiga contoh simulasi dengan status `baru`, `diproses`, dan `selesai`.
+Halaman `/rekap-laporan` menyediakan filter sekolah, ringkasan jumlah per status, dan tabel
+rekap per sekolah untuk pemantau serta koordinator.
 
 ### Aturan bisnis laporan
 
