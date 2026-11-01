@@ -60,6 +60,8 @@
         @empty
             <p>Belum ada laporan yang dikirim.</p>
         @endforelse
+
+        {{ $reports->links() }}
     </main>
 </body>
 </html>

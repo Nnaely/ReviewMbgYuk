@@ -16,7 +16,10 @@ class ReportController extends Controller
     {
         return view('reports.index', [
             'schools' => School::query()->orderBy('name')->get(['id', 'name']),
-            'reports' => $request->user()->reports()->with(['school', 'statusHistories.updater'])->latest()->get(),
+            'reports' => $request->user()->reports()
+                ->with(['school', 'statusHistories.updater'])
+                ->latest()
+                ->paginate(10),
         ]);
     }
 

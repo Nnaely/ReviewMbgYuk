@@ -94,7 +94,8 @@ yang sudah tersimpan; pengelolaan atau penambahan distribusi belum tersedia.
 ## Pelaporan dasar
 
 Pelapor dapat memilih sekolah, mengisi laporan, dan melihat laporan yang pernah dikirim
-melalui `/laporan`. Setiap laporan tersimpan dengan status awal `baru` dan terhubung ke
+melalui `/laporan`, dengan daftar laporan dibagi menjadi sepuluh item per halaman.
+Setiap laporan tersimpan dengan status awal `baru` dan terhubung ke
 akun pelapor serta sekolah. Pemantau dan koordinator dapat melihat daftar laporan masuk
 serta halaman detailnya melalui dasbor. Status dapat diperbarui menjadi `baru`, `diproses`,
 atau `selesai`, dan terlihat oleh pelapor di halaman laporannya. Daftar laporan dapat
