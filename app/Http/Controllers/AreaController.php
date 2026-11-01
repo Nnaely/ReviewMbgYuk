@@ -46,6 +46,10 @@ class AreaController extends Controller
             'namaPeran' => $namaPeran,
             'jumlahPerStatus' => $jumlahPerStatus,
             'jumlahLaporan' => array_sum($jumlahPerStatus),
+            'notifications' => $request->user()->isPelapor()
+                ? $request->user()->notifications()->latest()->limit(5)->get()
+                : collect(),
+            'unreadNotificationCount' => $request->user()->unreadNotifications()->count(),
         ]);
     }
 }

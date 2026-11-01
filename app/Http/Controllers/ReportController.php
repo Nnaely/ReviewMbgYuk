@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\School;
 use App\Models\Distribution;
 use App\Models\Report;
+use App\Notifications\ReportFollowUpUpdated;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -157,6 +158,14 @@ class ReportController extends Controller
 
         DB::transaction(function () use ($request, $report, $validated): void {
             $previousStatus = $report->status;
+            $previousNote = $report->follow_up_note;
+            $hasChanged = $previousStatus !== $validated['status']
+                || $previousNote !== $validated['follow_up_note'];
+
+            if (! $hasChanged) {
+                return;
+            }
+
             $report->update($validated);
             $report->statusHistories()->create([
                 'updated_by' => $request->user()->id,
@@ -164,6 +173,15 @@ class ReportController extends Controller
                 'status' => $report->status,
                 'note' => $report->follow_up_note,
             ]);
+
+            $report->loadMissing(['school', 'reporter']);
+            $report->reporter->notify(new ReportFollowUpUpdated([
+                'title' => 'Tindak lanjut laporan diperbarui',
+                'message' => 'Laporan di '.$report->school->name.' diperbarui oleh '
+                    .$request->user()->name.'. Status: '.ucfirst($report->status)
+                    .'. Catatan: '.$report->follow_up_note,
+                'report_id' => $report->id,
+            ]));
         });
 
         return redirect()

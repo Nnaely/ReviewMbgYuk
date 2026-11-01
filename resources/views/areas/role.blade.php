@@ -24,6 +24,24 @@
         </section>
         @if (auth()->user()->isPelapor())
             <p><a href="{{ route('reports.index') }}">Buat laporan</a></p>
+            <section aria-labelledby="notifikasi-laporan">
+                <h2 id="notifikasi-laporan">Notifikasi tindak lanjut</h2>
+                <p>{{ $unreadNotificationCount }} notifikasi belum dibaca</p>
+                @forelse ($notifications as $notification)
+                    <article>
+                        <h3>{{ $notification->data['title'] }}</h3>
+                        <p>{{ $notification->data['message'] }}</p>
+                        @if (! $notification->read_at)
+                            <form method="POST" action="{{ route('notifications.read', $notification->id) }}">
+                                @csrf
+                                <button type="submit">Tandai sudah dibaca</button>
+                            </form>
+                        @endif
+                    </article>
+                @empty
+                    <p>Belum ada notifikasi tindak lanjut.</p>
+                @endforelse
+            </section>
         @endif
         @if (auth()->user()->isPemantau() || auth()->user()->isKoordinator())
             <p><a href="{{ route('distributions.index') }}">Lihat distribusi makanan</a></p>

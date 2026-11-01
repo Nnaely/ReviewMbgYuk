@@ -21,6 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/{report}/bukti', [\App\Http\Controllers\ReportController::class, 'photo'])
         ->name('reports.photo');
 
+    Route::post('/notifikasi/{notification}/baca', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])
+        ->middleware('role:pelapor')
+        ->name('notifications.read');
+
     Route::get('/laporan', [\App\Http\Controllers\ReportController::class, 'index'])
         ->middleware('role:pelapor')
         ->name('reports.index');

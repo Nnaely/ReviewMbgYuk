@@ -108,6 +108,8 @@ menyertakan catatan tindak lanjut saat memperbarui status; catatan terbaru ditam
 kepada pelapor. Setiap pengiriman laporan dan pembaruan status tercatat dalam riwayat
 beserta catatan, waktu, dan nama pengguna yang melakukan perubahan. Riwayat tersedia
 di halaman detail laporan serta halaman laporan pelapor.
+Pelapor menerima notifikasi di dasbor ketika status atau catatan tindak lanjut berubah,
+dan dapat menandai notifikasi sebagai sudah dibaca.
 Foto bukti opsional dapat diunggah dalam format JPG, PNG, atau WebP hingga 5 MB.
 Foto disimpan secara privat dan hanya dapat dibuka oleh pelapor pemilik laporan serta
 pemantau atau koordinator yang masuk ke aplikasi.
