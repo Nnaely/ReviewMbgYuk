@@ -73,11 +73,6 @@ class ReportController extends Controller
                     'description' => $validated['description'],
                     'photo_path' => $photoPath,
                 ]);
-                $report->statusHistories()->create([
-                    'updated_by' => $request->user()->id,
-                    'status' => $report->status,
-                    'note' => 'Laporan dibuat oleh pelapor.',
-                ]);
             });
         } catch (Throwable $exception) {
             if ($photoPath) {

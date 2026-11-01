@@ -118,6 +118,8 @@ saat memperbarui status; catatan terbaru ditampilkan
 kepada pelapor. Setiap pengiriman laporan dan pembaruan status tercatat dalam riwayat
 beserta catatan, waktu, dan nama pengguna yang melakukan perubahan. Riwayat tersedia
 di halaman detail laporan serta halaman laporan pelapor.
+Riwayat laporan dibuat otomatis oleh Eloquent Observer saat laporan dibuat atau data
+penting laporan berubah.
 Pelapor menerima notifikasi di dasbor ketika status atau catatan tindak lanjut berubah,
 dan dapat menandai notifikasi sebagai sudah dibaca.
 Bukti pendukung opsional dapat diunggah dalam format JPG, JPEG, PNG, atau PDF hingga 2 MB.
