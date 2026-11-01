@@ -92,7 +92,8 @@ Koordinator dapat menambahkan jadwal dari halaman tersebut dengan memilih sekola
 tanggal distribusi, dan keterangan menu. Koordinator juga dapat mengubah tanggal dan
 menu jadwal yang ada tanpa mengubah sekolahnya. Jadwal yang belum dipakai laporan dapat
 dihapus koordinator; jadwal yang sudah dipakai tidak dapat dihapus. Pemantau hanya dapat
-melihat daftar distribusi.
+melihat daftar distribusi. Kedua peran dapat mencari sekolah atau menu, memfilter sekolah
+dan rentang tanggal, serta membuka daftar dalam 15 item per halaman.
 
 ## Pengelolaan sekolah
 

@@ -7,18 +7,53 @@ use App\Models\School;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class DistributionController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $distributions = Distribution::with('school')
-            ->withCount('reports')
+        $dateToRules = ['nullable', 'date'];
+        if ($request->filled('date_from')) {
+            $dateToRules[] = 'after_or_equal:date_from';
+        }
+
+        $filters = $request->validate([
+            'search' => ['nullable', 'string', 'max:100'],
+            'school_id' => ['nullable', 'integer', 'exists:schools,id'],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => $dateToRules,
+        ]);
+
+        $distributionsQuery = Distribution::with('school')->withCount('reports');
+
+        if (! empty($filters['search'])) {
+            $search = $filters['search'];
+            $distributionsQuery->where(function ($query) use ($search): void {
+                $query->where('menu_description', 'like', '%'.$search.'%')
+                    ->orWhereHas('school', fn ($schoolQuery) => $schoolQuery->where('name', 'like', '%'.$search.'%'));
+            });
+        }
+
+        if (! empty($filters['school_id'])) {
+            $distributionsQuery->where('school_id', $filters['school_id']);
+        }
+
+        if (! empty($filters['date_from'])) {
+            $distributionsQuery->whereDate('distribution_date', '>=', $filters['date_from']);
+        }
+
+        if (! empty($filters['date_to'])) {
+            $distributionsQuery->whereDate('distribution_date', '<=', $filters['date_to']);
+        }
+
+        $distributions = $distributionsQuery
             ->orderByDesc('distribution_date')
-            ->get();
+            ->paginate(15)
+            ->withQueryString();
         $schools = School::query()->orderBy('name')->get(['id', 'name']);
 
-        return view('distributions.index', compact('distributions', 'schools'));
+        return view('distributions.index', compact('distributions', 'schools', 'filters'));
     }
 
     public function store(Request $request): RedirectResponse

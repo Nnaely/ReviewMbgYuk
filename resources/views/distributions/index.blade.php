@@ -22,6 +22,31 @@
             </ul>
         @endif
 
+        <h2>Cari dan Filter Distribusi</h2>
+        <form method="GET" action="{{ route('distributions.index') }}">
+            <label for="search">Cari sekolah atau menu</label>
+            <input id="search" name="search" type="search" value="{{ $filters['search'] ?? '' }}" maxlength="100">
+
+            <label for="school_filter">Sekolah</label>
+            <select id="school_filter" name="school_id">
+                <option value="">Semua sekolah</option>
+                @foreach ($schools as $school)
+                    <option value="{{ $school->id }}" @selected((string) ($filters['school_id'] ?? '') === (string) $school->id)>
+                        {{ $school->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            <label for="date_from">Dari tanggal</label>
+            <input id="date_from" name="date_from" type="date" value="{{ $filters['date_from'] ?? '' }}">
+
+            <label for="date_to">Sampai tanggal</label>
+            <input id="date_to" name="date_to" type="date" value="{{ $filters['date_to'] ?? '' }}">
+
+            <button type="submit">Terapkan filter</button>
+            <a href="{{ route('distributions.index') }}">Hapus filter</a>
+        </form>
+
         @if (auth()->user()->isKoordinator())
             <h2>Tambah Jadwal Distribusi</h2>
             <form method="POST" action="{{ route('distributions.store') }}">
@@ -85,6 +110,8 @@
                 @endforelse
             </tbody>
         </table>
+
+        {{ $distributions->links() }}
     </main>
 </body>
 </html>
