@@ -11,6 +11,7 @@ class Report extends Model
     protected $fillable = [
         'reporter_id',
         'school_id',
+        'distribution_id',
         'description',
         'status',
         'follow_up_note',
@@ -24,6 +25,11 @@ class Report extends Model
     public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
+    }
+
+    public function distribution(): BelongsTo
+    {
+        return $this->belongsTo(Distribution::class);
     }
 
     public function statusHistories(): HasMany

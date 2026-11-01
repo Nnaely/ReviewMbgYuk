@@ -93,7 +93,7 @@ yang sudah tersimpan; pengelolaan atau penambahan distribusi belum tersedia.
 
 ## Pelaporan dasar
 
-Pelapor dapat memilih sekolah, mengisi laporan, dan melihat laporan yang pernah dikirim
+Pelapor dapat memilih jadwal distribusi sekolah, mengisi laporan, dan melihat laporan yang pernah dikirim
 melalui `/laporan`, memfilter berdasarkan sekolah atau status, dan melihat daftar dalam
 sepuluh item per halaman.
 Setiap laporan tersimpan dengan status awal `baru` dan terhubung ke

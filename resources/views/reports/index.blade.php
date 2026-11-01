@@ -24,12 +24,12 @@
 
         <form method="POST" action="{{ route('reports.store') }}">
             @csrf
-            <label for="school_id">Sekolah</label>
-            <select id="school_id" name="school_id" required>
-                <option value="">Pilih sekolah</option>
-                @foreach ($schools as $school)
-                    <option value="{{ $school->id }}" @selected(old('school_id') == $school->id)>
-                        {{ $school->name }}
+            <label for="distribution_id">Jadwal distribusi</label>
+            <select id="distribution_id" name="distribution_id" required>
+                <option value="">Pilih jadwal distribusi</option>
+                @foreach ($distributions as $distribution)
+                    <option value="{{ $distribution->id }}" @selected(old('distribution_id') == $distribution->id)>
+                        {{ $distribution->school->name }} — {{ $distribution->distribution_date->format('d-m-Y') }} — {{ $distribution->menu_description }}
                     </option>
                 @endforeach
             </select>
@@ -66,6 +66,9 @@
         @forelse ($reports as $report)
             <article>
                 <h3>{{ $report->school->name }}</h3>
+                @if ($report->distribution)
+                    <p>Distribusi: {{ $report->distribution->distribution_date->format('d-m-Y') }} — {{ $report->distribution->menu_description }}</p>
+                @endif
                 <p>{{ $report->description }}</p>
                 <p>Status: {{ ucfirst($report->status) }}</p>
                 <p>Catatan tindak lanjut: {{ $report->follow_up_note ?: 'Belum ada catatan tindak lanjut.' }}</p>

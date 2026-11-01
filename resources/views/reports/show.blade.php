@@ -26,6 +26,11 @@
             <dt>Sekolah</dt>
             <dd>{{ $report->school->name }}</dd>
 
+            @if ($report->distribution)
+                <dt>Jadwal distribusi</dt>
+                <dd>{{ $report->distribution->distribution_date->format('d-m-Y') }} — {{ $report->distribution->menu_description }}</dd>
+            @endif
+
             <dt>Pelapor</dt>
             <dd>{{ $report->reporter->name }}</dd>
 

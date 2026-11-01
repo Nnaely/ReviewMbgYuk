@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\School;
+use App\Models\Distribution;
 use App\Models\Report;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -32,20 +33,26 @@ class ReportController extends Controller
 
         return view('reports.index', [
             'schools' => School::query()->orderBy('name')->get(['id', 'name']),
+            'distributions' => Distribution::with('school')->orderByDesc('distribution_date')->get(),
             'filters' => $filters,
-            'reports' => $reportsQuery->latest()->paginate(10)->withQueryString(),
+            'reports' => $reportsQuery->with('distribution')->latest()->paginate(10)->withQueryString(),
         ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'school_id' => ['required', 'integer', 'exists:schools,id'],
+            'distribution_id' => ['required', 'integer', 'exists:distributions,id'],
             'description' => ['required', 'string', 'min:10', 'max:2000'],
         ]);
 
         DB::transaction(function () use ($request, $validated): void {
-            $report = $request->user()->reports()->create($validated);
+            $distribution = Distribution::query()->findOrFail($validated['distribution_id']);
+            $report = $request->user()->reports()->create([
+                'school_id' => $distribution->school_id,
+                'distribution_id' => $distribution->id,
+                'description' => $validated['description'],
+            ]);
             $report->statusHistories()->create([
                 'updated_by' => $request->user()->id,
                 'status' => $report->status,
@@ -103,7 +110,7 @@ class ReportController extends Controller
     public function show(Report $report): View
     {
         return view('reports.show', [
-            'report' => $report->load(['school', 'reporter', 'statusHistories.updater']),
+            'report' => $report->load(['school', 'reporter', 'distribution', 'statusHistories.updater']),
         ]);
     }
 
