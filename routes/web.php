@@ -29,6 +29,14 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:pelapor')
         ->name('reports.index');
 
+    Route::get('/laporan/{report}/edit', [\App\Http\Controllers\ReportController::class, 'edit'])
+        ->middleware('role:pelapor')
+        ->name('reports.edit');
+
+    Route::patch('/laporan/{report}', [\App\Http\Controllers\ReportController::class, 'correct'])
+        ->middleware('role:pelapor')
+        ->name('reports.correct');
+
     Route::post('/laporan', [\App\Http\Controllers\ReportController::class, 'store'])
         ->middleware(['role:pelapor', 'throttle:10,1'])
         ->name('reports.store');

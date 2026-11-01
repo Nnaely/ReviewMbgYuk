@@ -123,6 +123,7 @@ dan dapat menandai notifikasi sebagai sudah dibaca.
 Bukti pendukung opsional dapat diunggah dalam format JPG, JPEG, PNG, atau PDF hingga 2 MB.
 Bukti disimpan secara privat dan hanya dapat dibuka oleh pelapor pemilik laporan serta
 pemantau atau koordinator yang masuk ke aplikasi.
+Pelapor dapat memperbaiki laporannya sendiri selama status masih `baru`.
 Dasbor setiap peran menampilkan jumlah laporan keseluruhan serta jumlah per status;
 ringkasan pelapor hanya menghitung laporan miliknya.
 

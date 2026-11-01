@@ -91,6 +91,76 @@ class ReportController extends Controller
             ->with('status', 'Laporan berhasil dikirim.');
     }
 
+    public function edit(Request $request, Report $report): View
+    {
+        $this->ensureReporterCanCorrect($request, $report);
+
+        return view('reports.edit', [
+            'report' => $report->load(['school', 'distribution']),
+            'schools' => School::query()->orderBy('name')->get(['id', 'name']),
+        ]);
+    }
+
+    public function correct(Request $request, Report $report): RedirectResponse
+    {
+        $this->ensureReporterCanCorrect($request, $report);
+
+        $validated = $request->validate([
+            'school_id' => ['required', 'integer', 'exists:schools,id'],
+            'distribution_id' => [
+                'required',
+                'integer',
+                Rule::exists('distributions', 'id')->where('school_id', $request->input('school_id')),
+            ],
+            'description' => ['required', 'string', 'min:10', 'max:2000'],
+            'photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+        ]);
+
+        $photo = $validated['photo'] ?? null;
+        unset($validated['photo']);
+        $oldPhotoPath = $report->photo_path;
+        $newPhotoPath = $photo?->store('laporan/bukti', 'local');
+
+        if ($photo && ! $newPhotoPath) {
+            return back()->withErrors(['photo' => 'Bukti gagal disimpan.'])->withInput();
+        }
+
+        try {
+            DB::transaction(function () use ($request, $report, $validated, $newPhotoPath): void {
+                $lockedReport = Report::query()->lockForUpdate()->findOrFail($report->id);
+                $this->ensureReporterCanCorrect($request, $lockedReport);
+                $distribution = Distribution::query()->findOrFail($validated['distribution_id']);
+
+                $lockedReport->update([
+                    'school_id' => $distribution->school_id,
+                    'distribution_id' => $distribution->id,
+                    'description' => $validated['description'],
+                    'photo_path' => $newPhotoPath ?? $lockedReport->photo_path,
+                ]);
+            });
+        } catch (Throwable $exception) {
+            if ($newPhotoPath) {
+                Storage::disk('local')->delete($newPhotoPath);
+            }
+
+            throw $exception;
+        }
+
+        if ($newPhotoPath && $oldPhotoPath && $oldPhotoPath !== $newPhotoPath) {
+            Storage::disk('local')->delete($oldPhotoPath);
+        }
+
+        return redirect()
+            ->route('reports.index')
+            ->with('status', 'Laporan berhasil diperbaiki.');
+    }
+
+    private function ensureReporterCanCorrect(Request $request, Report $report): void
+    {
+        abort_unless($report->reporter_id === $request->user()->id, 403);
+        abort_unless($report->status === 'baru', 403);
+    }
+
     public function inbox(Request $request): View
     {
         $dateToRules = ['nullable', 'date'];
