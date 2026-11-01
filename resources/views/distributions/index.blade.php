@@ -52,6 +52,9 @@
                     <th>Sekolah</th>
                     <th>Tanggal Distribusi</th>
                     <th>Keterangan Menu</th>
+                    @if (auth()->user()->isKoordinator())
+                        <th>Aksi</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -60,10 +63,13 @@
                         <td>{{ $item->school->name }}</td>
                         <td>{{ $item->distribution_date->format('d-m-Y') }}</td>
                         <td>{{ $item->menu_description }}</td>
+                        @if (auth()->user()->isKoordinator())
+                            <td><a href="{{ route('distributions.edit', $item) }}">Edit jadwal</a></td>
+                        @endif
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3">Belum ada data distribusi.</td>
+                        <td colspan="{{ auth()->user()->isKoordinator() ? 4 : 3 }}">Belum ada data distribusi.</td>
                     </tr>
                 @endforelse
             </tbody>

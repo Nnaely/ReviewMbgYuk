@@ -34,4 +34,25 @@ class DistributionController extends Controller
             ->route('distributions.index')
             ->with('status', 'Jadwal distribusi berhasil ditambahkan.');
     }
+
+    public function edit(Distribution $distribution): View
+    {
+        return view('distributions.edit', [
+            'distribution' => $distribution->load('school'),
+        ]);
+    }
+
+    public function update(Request $request, Distribution $distribution): RedirectResponse
+    {
+        $validated = $request->validate([
+            'distribution_date' => ['required', 'date'],
+            'menu_description' => ['required', 'string', 'min:5', 'max:2000'],
+        ]);
+
+        $distribution->update($validated);
+
+        return redirect()
+            ->route('distributions.index')
+            ->with('status', 'Jadwal distribusi berhasil diperbarui.');
+    }
 }

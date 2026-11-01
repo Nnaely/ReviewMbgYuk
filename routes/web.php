@@ -49,6 +49,14 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:koordinator')
         ->name('distributions.store');
 
+    Route::get('/distribusi/{distribution}/edit', [\App\Http\Controllers\DistributionController::class, 'edit'])
+        ->middleware('role:koordinator')
+        ->name('distributions.edit');
+
+    Route::patch('/distribusi/{distribution}', [\App\Http\Controllers\DistributionController::class, 'update'])
+        ->middleware('role:koordinator')
+        ->name('distributions.update');
+
     Route::get('/area/pelapor', [AreaController::class, 'pelapor'])
         ->middleware('role:pelapor')
         ->name('area.pelapor');
