@@ -38,8 +38,8 @@
             <label for="description">Isi laporan</label>
             <textarea id="description" name="description" rows="5" minlength="10" maxlength="2000" required>{{ old('description') }}</textarea>
 
-            <label for="photo">Foto bukti (opsional, maksimal 5 MB)</label>
-            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp">
+            <label for="photo">Bukti pendukung (JPG, JPEG, PNG, atau PDF; maksimal 2 MB)</label>
+            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,application/pdf">
 
             <button type="submit">Kirim laporan</button>
         </form>
@@ -74,7 +74,11 @@
                     <p>Distribusi: {{ $report->distribution->distribution_date->format('d-m-Y') }} — {{ $report->distribution->menu_description }}</p>
                 @endif
                 @if ($report->photo_path)
-                    <p><img src="{{ route('reports.photo', $report) }}" alt="Foto bukti laporan" width="320"></p>
+                    @if (strtolower(pathinfo($report->photo_path, PATHINFO_EXTENSION)) === 'pdf')
+                        <p><a href="{{ route('reports.photo', $report) }}">Lihat bukti PDF</a></p>
+                    @else
+                        <p><img src="{{ route('reports.photo', $report) }}" alt="Bukti laporan" width="320"></p>
+                    @endif
                 @endif
                 <p>{{ $report->description }}</p>
                 <p>Status: {{ ucfirst($report->status) }}</p>

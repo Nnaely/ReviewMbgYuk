@@ -119,8 +119,8 @@ beserta catatan, waktu, dan nama pengguna yang melakukan perubahan. Riwayat ters
 di halaman detail laporan serta halaman laporan pelapor.
 Pelapor menerima notifikasi di dasbor ketika status atau catatan tindak lanjut berubah,
 dan dapat menandai notifikasi sebagai sudah dibaca.
-Foto bukti opsional dapat diunggah dalam format JPG, PNG, atau WebP hingga 5 MB.
-Foto disimpan secara privat dan hanya dapat dibuka oleh pelapor pemilik laporan serta
+Bukti pendukung opsional dapat diunggah dalam format JPG, JPEG, PNG, atau PDF hingga 2 MB.
+Bukti disimpan secara privat dan hanya dapat dibuka oleh pelapor pemilik laporan serta
 pemantau atau koordinator yang masuk ke aplikasi.
 Dasbor setiap peran menampilkan jumlah laporan keseluruhan serta jumlah per status;
 ringkasan pelapor hanya menghitung laporan miliknya.

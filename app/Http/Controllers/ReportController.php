@@ -48,7 +48,7 @@ class ReportController extends Controller
         $validated = $request->validate([
             'distribution_id' => ['required', 'integer', 'exists:distributions,id'],
             'description' => ['required', 'string', 'min:10', 'max:2000'],
-            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ]);
 
         $photo = $validated['photo'] ?? null;

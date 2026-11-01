@@ -49,7 +49,13 @@
 
             @if ($report->photo_path)
                 <dt>Foto bukti</dt>
-                <dd><img src="{{ route('reports.photo', $report) }}" alt="Foto bukti laporan" width="480"></dd>
+                <dd>
+                    @if (strtolower(pathinfo($report->photo_path, PATHINFO_EXTENSION)) === 'pdf')
+                        <a href="{{ route('reports.photo', $report) }}">Lihat bukti PDF</a>
+                    @else
+                        <img src="{{ route('reports.photo', $report) }}" alt="Bukti laporan" width="480">
+                    @endif
+                </dd>
             @endif
         </dl>
 
