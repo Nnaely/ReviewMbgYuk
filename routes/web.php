@@ -49,6 +49,10 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:pemantau,koordinator')
         ->name('reports.inbox');
 
+    Route::get('/rekap-laporan', [\App\Http\Controllers\ReportSummaryController::class, 'index'])
+        ->middleware('role:pemantau,koordinator')
+        ->name('reports.summary');
+
     Route::get('/laporan-masuk/{report}', [\App\Http\Controllers\ReportController::class, 'show'])
         ->middleware('role:pemantau,koordinator')
         ->name('reports.show');
