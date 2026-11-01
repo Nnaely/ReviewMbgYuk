@@ -41,6 +41,18 @@
         </form>
 
         <h2>Laporan Saya</h2>
+        <form method="GET" action="{{ route('reports.index') }}">
+            <label for="status_filter">Filter status</label>
+            <select id="status_filter" name="status">
+                <option value="">Semua status</option>
+                @foreach (['baru' => 'Baru', 'diproses' => 'Diproses', 'selesai' => 'Selesai'] as $value => $label)
+                    <option value="{{ $value }}" @selected(($filters['status'] ?? '') === $value)>{{ $label }}</option>
+                @endforeach
+            </select>
+            <button type="submit">Terapkan filter</button>
+            <a href="{{ route('reports.index') }}">Hapus filter</a>
+        </form>
+
         @forelse ($reports as $report)
             <article>
                 <h3>{{ $report->school->name }}</h3>

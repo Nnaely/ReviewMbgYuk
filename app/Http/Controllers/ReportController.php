@@ -14,12 +14,21 @@ class ReportController extends Controller
 {
     public function index(Request $request): View
     {
+        $filters = $request->validate([
+            'status' => ['nullable', Rule::in(['baru', 'diproses', 'selesai'])],
+        ]);
+
+        $reportsQuery = $request->user()->reports()
+            ->with(['school', 'statusHistories.updater']);
+
+        if (! empty($filters['status'])) {
+            $reportsQuery->where('status', $filters['status']);
+        }
+
         return view('reports.index', [
             'schools' => School::query()->orderBy('name')->get(['id', 'name']),
-            'reports' => $request->user()->reports()
-                ->with(['school', 'statusHistories.updater'])
-                ->latest()
-                ->paginate(10),
+            'filters' => $filters,
+            'reports' => $reportsQuery->latest()->paginate(10)->withQueryString(),
         ]);
     }
 
