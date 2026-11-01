@@ -64,7 +64,18 @@
                         <td>{{ $item->distribution_date->format('d-m-Y') }}</td>
                         <td>{{ $item->menu_description }}</td>
                         @if (auth()->user()->isKoordinator())
-                            <td><a href="{{ route('distributions.edit', $item) }}">Edit jadwal</a></td>
+                            <td>
+                                <a href="{{ route('distributions.edit', $item) }}">Edit jadwal</a>
+                                @if ((int) $item->reports_count === 0)
+                                    <form method="POST" action="{{ route('distributions.destroy', $item) }}" onsubmit="return confirm('Hapus jadwal distribusi ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit">Hapus</button>
+                                    </form>
+                                @else
+                                    <p>Dipakai {{ $item->reports_count }} laporan</p>
+                                @endif
+                            </td>
                         @endif
                     </tr>
                 @empty

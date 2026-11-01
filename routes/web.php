@@ -57,6 +57,10 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:koordinator')
         ->name('distributions.update');
 
+    Route::delete('/distribusi/{distribution}', [\App\Http\Controllers\DistributionController::class, 'destroy'])
+        ->middleware('role:koordinator')
+        ->name('distributions.destroy');
+
     Route::get('/area/pelapor', [AreaController::class, 'pelapor'])
         ->middleware('role:pelapor')
         ->name('area.pelapor');

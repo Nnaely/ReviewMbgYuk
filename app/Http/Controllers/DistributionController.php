@@ -13,6 +13,7 @@ class DistributionController extends Controller
     public function index(): View
     {
         $distributions = Distribution::with('school')
+            ->withCount('reports')
             ->orderByDesc('distribution_date')
             ->get();
         $schools = School::query()->orderBy('name')->get(['id', 'name']);
@@ -54,5 +55,20 @@ class DistributionController extends Controller
         return redirect()
             ->route('distributions.index')
             ->with('status', 'Jadwal distribusi berhasil diperbarui.');
+    }
+
+    public function destroy(Distribution $distribution): RedirectResponse
+    {
+        if ($distribution->reports()->exists()) {
+            return redirect()
+                ->route('distributions.index')
+                ->withErrors(['distribution' => 'Jadwal tidak dapat dihapus karena sudah digunakan oleh laporan.']);
+        }
+
+        $distribution->delete();
+
+        return redirect()
+            ->route('distributions.index')
+            ->with('status', 'Jadwal distribusi berhasil dihapus.');
     }
 }
