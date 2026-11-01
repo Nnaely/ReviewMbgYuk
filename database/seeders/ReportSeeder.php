@@ -50,6 +50,14 @@ class ReportSeeder extends Seeder
                 ]
             );
 
+            if (! $report->statusHistories()->exists()) {
+                $report->statusHistories()->create([
+                    'updated_by' => $reporter->id,
+                    'status' => $report->status ?: Report::STATUS_BARU,
+                    'note' => 'Laporan dibuat oleh pelapor.',
+                ]);
+            }
+
             if ($example['status'] === Report::STATUS_DIPROSES && $report->status === Report::STATUS_BARU) {
                 $report->update([
                     'status' => Report::STATUS_DIPROSES,

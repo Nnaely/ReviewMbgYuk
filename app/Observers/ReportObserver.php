@@ -9,9 +9,11 @@ class ReportObserver
 {
     public function created(Report $report): void
     {
+        $status = $report->status ?: Report::STATUS_BARU;
+
         $report->statusHistories()->create([
             'updated_by' => Auth::id() ?? $report->reporter_id,
-            'status' => $report->status,
+            'status' => $status,
             'note' => 'Laporan dibuat oleh pelapor.',
         ]);
     }
