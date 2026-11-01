@@ -17,6 +17,9 @@ Route::get('/', function () {
 })->name('beranda');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/laporan/{report}/bukti', [\App\Http\Controllers\ReportController::class, 'photo'])
+        ->name('reports.photo');
+
     Route::get('/laporan', [\App\Http\Controllers\ReportController::class, 'index'])
         ->middleware('role:pelapor')
         ->name('reports.index');

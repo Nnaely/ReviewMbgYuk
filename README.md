@@ -106,7 +106,8 @@ kepada pelapor. Setiap pengiriman laporan dan pembaruan status tercatat dalam ri
 beserta catatan, waktu, dan nama pengguna yang melakukan perubahan. Riwayat tersedia
 di halaman detail laporan serta halaman laporan pelapor.
 Foto bukti opsional dapat diunggah dalam format JPG, PNG, atau WebP hingga 5 MB.
-Jalankan `php artisan storage:link` agar foto dapat ditampilkan dari penyimpanan publik.
+Foto disimpan secara privat dan hanya dapat dibuka oleh pelapor pemilik laporan serta
+pemantau atau koordinator yang masuk ke aplikasi.
 
 ## Migrasi peran pengguna
 

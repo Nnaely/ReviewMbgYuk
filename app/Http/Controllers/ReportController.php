@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
 
 class ReportController extends Controller
@@ -51,7 +52,7 @@ class ReportController extends Controller
 
         $photo = $validated['photo'] ?? null;
         unset($validated['photo']);
-        $photoPath = $photo?->storePublicly('laporan/bukti', 'public');
+        $photoPath = $photo?->store('laporan/bukti', 'local');
 
         if ($photo && ! $photoPath) {
             return back()->withErrors(['photo' => 'Foto bukti gagal disimpan.'])->withInput();
@@ -74,7 +75,7 @@ class ReportController extends Controller
             });
         } catch (Throwable $exception) {
             if ($photoPath) {
-                Storage::disk('public')->delete($photoPath);
+                Storage::disk('local')->delete($photoPath);
             }
 
             throw $exception;
@@ -132,6 +133,19 @@ class ReportController extends Controller
         return view('reports.show', [
             'report' => $report->load(['school', 'reporter', 'distribution', 'statusHistories.updater']),
         ]);
+    }
+
+    public function photo(Request $request, Report $report): StreamedResponse
+    {
+        $user = $request->user();
+        $canView = $user->isPelapor()
+            ? $report->reporter_id === $user->id
+            : $user->isPemantau() || $user->isKoordinator();
+
+        abort_unless($canView, 403);
+        abort_unless($report->photo_path && Storage::disk('local')->exists($report->photo_path), 404);
+
+        return Storage::disk('local')->response($report->photo_path);
     }
 
     public function update(Request $request, Report $report): RedirectResponse

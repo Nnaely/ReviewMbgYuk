@@ -48,7 +48,7 @@
 
             @if ($report->photo_path)
                 <dt>Foto bukti</dt>
-                <dd><img src="{{ asset('storage/'.$report->photo_path) }}" alt="Foto bukti laporan" width="480"></dd>
+                <dd><img src="{{ route('reports.photo', $report) }}" alt="Foto bukti laporan" width="480"></dd>
             @endif
         </dl>
 

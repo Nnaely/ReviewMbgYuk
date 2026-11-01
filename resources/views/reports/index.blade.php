@@ -73,7 +73,7 @@
                     <p>Distribusi: {{ $report->distribution->distribution_date->format('d-m-Y') }} — {{ $report->distribution->menu_description }}</p>
                 @endif
                 @if ($report->photo_path)
-                    <p><img src="{{ asset('storage/'.$report->photo_path) }}" alt="Foto bukti laporan" width="320"></p>
+                    <p><img src="{{ route('reports.photo', $report) }}" alt="Foto bukti laporan" width="320"></p>
                 @endif
                 <p>{{ $report->description }}</p>
                 <p>Status: {{ ucfirst($report->status) }}</p>
