@@ -46,6 +46,7 @@
                 <h3>{{ $report->school->name }}</h3>
                 <p>{{ $report->description }}</p>
                 <p>Status: {{ ucfirst($report->status) }}</p>
+                <p>Catatan tindak lanjut: {{ $report->follow_up_note ?: 'Belum ada catatan tindak lanjut.' }}</p>
                 <small>{{ $report->created_at->format('d-m-Y H:i') }}</small>
             </article>
         @empty

@@ -35,6 +35,9 @@
             <dt>Status</dt>
             <dd>{{ ucfirst($report->status) }}</dd>
 
+            <dt>Catatan tindak lanjut</dt>
+            <dd>{{ $report->follow_up_note ?: 'Belum ada catatan tindak lanjut.' }}</dd>
+
             <dt>Isi laporan</dt>
             <dd>{{ $report->description }}</dd>
         </dl>
@@ -48,6 +51,8 @@
                     <option value="{{ $value }}" @selected(old('status', $report->status) === $value)>{{ $label }}</option>
                 @endforeach
             </select>
+            <label for="follow_up_note">Catatan tindak lanjut</label>
+            <textarea id="follow_up_note" name="follow_up_note" rows="4" minlength="5" maxlength="2000" required>{{ old('follow_up_note') }}</textarea>
             <button type="submit">Simpan status</button>
         </form>
     </main>

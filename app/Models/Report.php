@@ -12,6 +12,7 @@ class Report extends Model
         'school_id',
         'description',
         'status',
+        'follow_up_note',
     ];
 
     public function reporter(): BelongsTo

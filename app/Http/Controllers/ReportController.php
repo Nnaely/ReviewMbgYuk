@@ -86,6 +86,7 @@ class ReportController extends Controller
     {
         $validated = $request->validate([
             'status' => ['required', Rule::in(['baru', 'diproses', 'selesai'])],
+            'follow_up_note' => ['required', 'string', 'min:5', 'max:2000'],
         ]);
 
         $report->update($validated);

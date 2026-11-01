@@ -98,7 +98,9 @@ melalui `/laporan`. Setiap laporan tersimpan dengan status awal `baru` dan terhu
 akun pelapor serta sekolah. Pemantau dan koordinator dapat melihat daftar laporan masuk
 serta halaman detailnya melalui dasbor. Status dapat diperbarui menjadi `baru`, `diproses`,
 atau `selesai`, dan terlihat oleh pelapor di halaman laporannya. Daftar laporan dapat
-difilter berdasarkan sekolah, status, dan rentang tanggal.
+difilter berdasarkan sekolah, status, dan rentang tanggal. Pemantau dan koordinator
+menyertakan catatan tindak lanjut saat memperbarui status; catatan terbaru ditampilkan
+kepada pelapor.
 
 ## Migrasi peran pengguna
 
