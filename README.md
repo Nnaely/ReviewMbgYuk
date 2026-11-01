@@ -105,7 +105,8 @@ atau laporan tidak dihapus melalui fitur ini.
 
 ## Pelaporan dasar
 
-Pelapor dapat memilih jadwal distribusi sekolah, mengisi laporan, dan melihat laporan yang pernah dikirim
+Pelapor memilih sekolah, lalu daftar distribusi yang terkait dimuat tanpa memuat ulang halaman.
+Pelapor dapat mengisi laporan dan melihat laporan yang pernah dikirim
 melalui `/laporan`, memfilter berdasarkan sekolah atau status, dan melihat daftar dalam
 sepuluh item per halaman.
 Setiap laporan tersimpan dengan status awal `baru` dan terhubung ke

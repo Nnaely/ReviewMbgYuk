@@ -33,6 +33,10 @@ Route::middleware('auth')->group(function () {
         ->middleware(['role:pelapor', 'throttle:10,1'])
         ->name('reports.store');
 
+    Route::get('/sekolah/{school}/distribusi', [\App\Http\Controllers\DistributionController::class, 'bySchool'])
+        ->middleware('role:pelapor')
+        ->name('schools.distributions');
+
     Route::get('/laporan-masuk', [\App\Http\Controllers\ReportController::class, 'inbox'])
         ->middleware('role:pemantau,koordinator')
         ->name('reports.inbox');

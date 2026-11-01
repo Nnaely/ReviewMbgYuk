@@ -37,7 +37,6 @@ class ReportController extends Controller
 
         return view('reports.index', [
             'schools' => School::query()->orderBy('name')->get(['id', 'name']),
-            'distributions' => Distribution::with('school')->orderByDesc('distribution_date')->get(),
             'filters' => $filters,
             'reports' => $reportsQuery->with('distribution')->latest()->paginate(10)->withQueryString(),
         ]);
@@ -46,7 +45,12 @@ class ReportController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'distribution_id' => ['required', 'integer', 'exists:distributions,id'],
+            'school_id' => ['required', 'integer', 'exists:schools,id'],
+            'distribution_id' => [
+                'required',
+                'integer',
+                Rule::exists('distributions', 'id')->where('school_id', $request->input('school_id')),
+            ],
             'description' => ['required', 'string', 'min:10', 'max:2000'],
             'photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ]);

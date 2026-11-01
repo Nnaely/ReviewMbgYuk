@@ -7,10 +7,24 @@ use App\Models\School;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 
 class DistributionController extends Controller
 {
+    public function bySchool(School $school): JsonResponse
+    {
+        $distributions = $school->distributions()
+            ->orderByDesc('distribution_date')
+            ->get()
+            ->map(fn (Distribution $distribution): array => [
+                'id' => $distribution->id,
+                'label' => $distribution->distribution_date->format('d-m-Y').' — '.$distribution->menu_description,
+            ]);
+
+        return response()->json($distributions);
+    }
+
     public function index(Request $request): View
     {
         $dateToRules = ['nullable', 'date'];
