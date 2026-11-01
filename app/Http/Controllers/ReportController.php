@@ -33,11 +33,18 @@ class ReportController extends Controller
             ->with('status', 'Laporan berhasil dikirim.');
     }
 
-    public function inbox(): View
+    public function inbox(Request $request): View
     {
-        $filters = request()->validate([
+        $dateToRules = ['nullable', 'date'];
+        if ($request->filled('date_from')) {
+            $dateToRules[] = 'after_or_equal:date_from';
+        }
+
+        $filters = $request->validate([
             'school_id' => ['nullable', 'integer', 'exists:schools,id'],
             'status' => ['nullable', Rule::in(['baru', 'diproses', 'selesai'])],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => $dateToRules,
         ]);
 
         $reportsQuery = Report::with(['school', 'reporter']);
@@ -48,6 +55,14 @@ class ReportController extends Controller
 
         if (! empty($filters['status'])) {
             $reportsQuery->where('status', $filters['status']);
+        }
+
+        if (! empty($filters['date_from'])) {
+            $reportsQuery->whereDate('created_at', '>=', $filters['date_from']);
+        }
+
+        if (! empty($filters['date_to'])) {
+            $reportsQuery->whereDate('created_at', '<=', $filters['date_to']);
         }
 
         return view('reports.inbox', [

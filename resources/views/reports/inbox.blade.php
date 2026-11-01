@@ -10,6 +10,14 @@
         <a href="{{ auth()->user()->isPemantau() ? route('area.pemantau') : route('area.koordinator') }}">Kembali ke dasbor</a>
         <h1>Laporan Masuk</h1>
 
+        @if ($errors->any())
+            <ul role="alert">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
         <form method="GET" action="{{ route('reports.inbox') }}">
             <label for="school_id">Sekolah</label>
             <select id="school_id" name="school_id">
@@ -28,6 +36,12 @@
                     <option value="{{ $value }}" @selected(($filters['status'] ?? '') === $value)>{{ $label }}</option>
                 @endforeach
             </select>
+
+            <label for="date_from">Dari tanggal</label>
+            <input id="date_from" name="date_from" type="date" value="{{ $filters['date_from'] ?? '' }}">
+
+            <label for="date_to">Sampai tanggal</label>
+            <input id="date_to" name="date_to" type="date" value="{{ $filters['date_to'] ?? '' }}">
 
             <button type="submit">Terapkan filter</button>
             <a href="{{ route('reports.inbox') }}">Hapus filter</a>
