@@ -16,6 +16,7 @@ class ReportController extends Controller
     {
         $filters = $request->validate([
             'status' => ['nullable', Rule::in(['baru', 'diproses', 'selesai'])],
+            'school_id' => ['nullable', 'integer', 'exists:schools,id'],
         ]);
 
         $reportsQuery = $request->user()->reports()
@@ -23,6 +24,10 @@ class ReportController extends Controller
 
         if (! empty($filters['status'])) {
             $reportsQuery->where('status', $filters['status']);
+        }
+
+        if (! empty($filters['school_id'])) {
+            $reportsQuery->where('school_id', $filters['school_id']);
         }
 
         return view('reports.index', [

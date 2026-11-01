@@ -42,6 +42,16 @@
 
         <h2>Laporan Saya</h2>
         <form method="GET" action="{{ route('reports.index') }}">
+            <label for="school_filter">Sekolah</label>
+            <select id="school_filter" name="school_id">
+                <option value="">Semua sekolah</option>
+                @foreach ($schools as $school)
+                    <option value="{{ $school->id }}" @selected((string) ($filters['school_id'] ?? '') === (string) $school->id)>
+                        {{ $school->name }}
+                    </option>
+                @endforeach
+            </select>
+
             <label for="status_filter">Filter status</label>
             <select id="status_filter" name="status">
                 <option value="">Semua status</option>
