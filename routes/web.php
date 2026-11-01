@@ -45,6 +45,10 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:pemantau,koordinator')
         ->name('distributions.index');
 
+    Route::post('/distribusi', [\App\Http\Controllers\DistributionController::class, 'store'])
+        ->middleware('role:koordinator')
+        ->name('distributions.store');
+
     Route::get('/area/pelapor', [AreaController::class, 'pelapor'])
         ->middleware('role:pelapor')
         ->name('area.pelapor');

@@ -88,8 +88,8 @@ Di dalam Tinker, baca distribusi beserta sekolahnya dengan:
 ```
 
 Daftar distribusi dapat dibuka oleh pemantau dan koordinator melalui dasbor masing-masing.
-Halaman ini menampilkan sekolah tujuan, tanggal distribusi, dan keterangan menu dari data
-yang sudah tersimpan; pengelolaan atau penambahan distribusi belum tersedia.
+Koordinator dapat menambahkan jadwal dari halaman tersebut dengan memilih sekolah,
+tanggal distribusi, dan keterangan menu. Pemantau hanya dapat melihat daftar distribusi.
 
 ## Pelaporan dasar
 

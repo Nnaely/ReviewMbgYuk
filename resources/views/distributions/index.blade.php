@@ -8,7 +8,43 @@
 <body>
     <main>
         <h1>Daftar Distribusi Makanan</h1>
-        <p>Jadwal menu simulasi untuk sekolah di Kota Bandung.</p>
+        <p>Jadwal distribusi makanan untuk sekolah.</p>
+
+        @if (session('status'))
+            <p role="status">{{ session('status') }}</p>
+        @endif
+
+        @if ($errors->any())
+            <ul role="alert">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
+        @if (auth()->user()->isKoordinator())
+            <h2>Tambah Jadwal Distribusi</h2>
+            <form method="POST" action="{{ route('distributions.store') }}">
+                @csrf
+                <label for="school_id">Sekolah</label>
+                <select id="school_id" name="school_id" required>
+                    <option value="">Pilih sekolah</option>
+                    @foreach ($schools as $school)
+                        <option value="{{ $school->id }}" @selected(old('school_id') == $school->id)>
+                            {{ $school->name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <label for="distribution_date">Tanggal distribusi</label>
+                <input id="distribution_date" name="distribution_date" type="date" value="{{ old('distribution_date') }}" required>
+
+                <label for="menu_description">Keterangan menu</label>
+                <textarea id="menu_description" name="menu_description" rows="4" minlength="5" maxlength="2000" required>{{ old('menu_description') }}</textarea>
+
+                <button type="submit">Tambah distribusi</button>
+            </form>
+        @endif
 
         <table>
             <thead>
