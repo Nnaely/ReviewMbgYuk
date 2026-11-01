@@ -47,6 +47,7 @@ class ReportSeeder extends Seeder
                 [
                     'school_id' => $school->id,
                     'distribution_id' => $distribution->id,
+                    'status' => Report::STATUS_BARU,
                 ]
             );
 
