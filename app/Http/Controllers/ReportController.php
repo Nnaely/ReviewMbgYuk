@@ -7,6 +7,7 @@ use App\Models\Report;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class ReportController extends Controller
@@ -15,7 +16,7 @@ class ReportController extends Controller
     {
         return view('reports.index', [
             'schools' => School::query()->orderBy('name')->get(['id', 'name']),
-            'reports' => $request->user()->reports()->with('school')->latest()->get(),
+            'reports' => $request->user()->reports()->with(['school', 'statusHistories.updater'])->latest()->get(),
         ]);
     }
 
@@ -26,7 +27,14 @@ class ReportController extends Controller
             'description' => ['required', 'string', 'min:10', 'max:2000'],
         ]);
 
-        $request->user()->reports()->create($validated);
+        DB::transaction(function () use ($request, $validated): void {
+            $report = $request->user()->reports()->create($validated);
+            $report->statusHistories()->create([
+                'updated_by' => $request->user()->id,
+                'status' => $report->status,
+                'note' => 'Laporan dibuat oleh pelapor.',
+            ]);
+        });
 
         return redirect()
             ->route('reports.index')
@@ -78,7 +86,7 @@ class ReportController extends Controller
     public function show(Report $report): View
     {
         return view('reports.show', [
-            'report' => $report->load(['school', 'reporter']),
+            'report' => $report->load(['school', 'reporter', 'statusHistories.updater']),
         ]);
     }
 
@@ -89,7 +97,16 @@ class ReportController extends Controller
             'follow_up_note' => ['required', 'string', 'min:5', 'max:2000'],
         ]);
 
-        $report->update($validated);
+        DB::transaction(function () use ($request, $report, $validated): void {
+            $previousStatus = $report->status;
+            $report->update($validated);
+            $report->statusHistories()->create([
+                'updated_by' => $request->user()->id,
+                'previous_status' => $previousStatus,
+                'status' => $report->status,
+                'note' => $report->follow_up_note,
+            ]);
+        });
 
         return redirect()
             ->route('reports.show', $report)

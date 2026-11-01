@@ -42,6 +42,19 @@
             <dd>{{ $report->description }}</dd>
         </dl>
 
+        <h2>Riwayat tindak lanjut</h2>
+        <ol>
+            @forelse ($report->statusHistories as $history)
+                <li>
+                    <p>{{ $history->previous_status ? ucfirst($history->previous_status) : 'Dibuat' }} → {{ ucfirst($history->status) }}</p>
+                    <p>{{ $history->note }}</p>
+                    <small>{{ $history->updater->name }} · {{ $history->created_at->format('d-m-Y H:i') }}</small>
+                </li>
+            @empty
+                <li>Riwayat belum tersedia.</li>
+            @endforelse
+        </ol>
+
         <form method="POST" action="{{ route('reports.update', $report) }}">
             @csrf
             @method('PATCH')

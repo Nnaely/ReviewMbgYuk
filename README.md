@@ -100,7 +100,9 @@ serta halaman detailnya melalui dasbor. Status dapat diperbarui menjadi `baru`, 
 atau `selesai`, dan terlihat oleh pelapor di halaman laporannya. Daftar laporan dapat
 difilter berdasarkan sekolah, status, dan rentang tanggal. Pemantau dan koordinator
 menyertakan catatan tindak lanjut saat memperbarui status; catatan terbaru ditampilkan
-kepada pelapor.
+kepada pelapor. Setiap pengiriman laporan dan pembaruan status tercatat dalam riwayat
+beserta catatan, waktu, dan nama pengguna yang melakukan perubahan. Riwayat tersedia
+di halaman detail laporan serta halaman laporan pelapor.
 
 ## Migrasi peran pengguna
 

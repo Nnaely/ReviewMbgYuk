@@ -48,6 +48,14 @@
                 <p>Status: {{ ucfirst($report->status) }}</p>
                 <p>Catatan tindak lanjut: {{ $report->follow_up_note ?: 'Belum ada catatan tindak lanjut.' }}</p>
                 <small>{{ $report->created_at->format('d-m-Y H:i') }}</small>
+                <h4>Riwayat tindak lanjut</h4>
+                @forelse ($report->statusHistories as $history)
+                    <p>{{ $history->previous_status ? ucfirst($history->previous_status) : 'Dibuat' }} → {{ ucfirst($history->status) }}</p>
+                    <p>{{ $history->note }}</p>
+                    <small>{{ $history->updater->name }} · {{ $history->created_at->format('d-m-Y H:i') }}</small>
+                @empty
+                    <p>Riwayat belum tersedia.</p>
+                @endforelse
             </article>
         @empty
             <p>Belum ada laporan yang dikirim.</p>
