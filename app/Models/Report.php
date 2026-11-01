@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Report extends Model
 {
+    public const STATUS_BARU = 'baru';
+    public const STATUS_DIPROSES = 'diproses';
+    public const STATUS_SELESAI = 'selesai';
+
     protected $fillable = [
         'reporter_id',
         'school_id',
@@ -16,7 +20,29 @@ class Report extends Model
         'photo_path',
         'status',
         'follow_up_note',
+        'needs_referral',
+        'referral_target',
+        'referral_note',
+        'referred_at',
+        'referred_by',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'needs_referral' => 'boolean',
+            'referred_at' => 'datetime',
+        ];
+    }
+
+    public static function nextStatuses(string $status): array
+    {
+        return match ($status) {
+            self::STATUS_BARU => [self::STATUS_DIPROSES],
+            self::STATUS_DIPROSES => [self::STATUS_SELESAI],
+            default => [],
+        };
+    }
 
     public function reporter(): BelongsTo
     {
@@ -36,5 +62,10 @@ class Report extends Model
     public function statusHistories(): HasMany
     {
         return $this->hasMany(ReportStatusHistory::class)->oldest();
+    }
+
+    public function referrer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'referred_by');
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
@@ -206,7 +207,7 @@ class ReportController extends Controller
     public function show(Report $report): View
     {
         return view('reports.show', [
-            'report' => $report->load(['school', 'reporter', 'distribution', 'statusHistories.updater']),
+            'report' => $report->load(['school', 'reporter', 'distribution', 'statusHistories.updater', 'referrer']),
         ]);
     }
 
@@ -225,41 +226,80 @@ class ReportController extends Controller
 
     public function update(Request $request, Report $report): RedirectResponse
     {
-        $validated = $request->validate([
-            'status' => ['required', Rule::in(['baru', 'diproses', 'selesai'])],
+        $validated = Validator::make($request->all(), [
+            'status' => ['required', Rule::in([Report::STATUS_BARU, Report::STATUS_DIPROSES, Report::STATUS_SELESAI])],
             'follow_up_note' => ['required', 'string', 'min:5', 'max:2000'],
-        ]);
+            'needs_referral' => ['nullable', 'boolean'],
+        ])->validate();
 
         DB::transaction(function () use ($request, $report, $validated): void {
-            $previousStatus = $report->status;
-            $previousNote = $report->follow_up_note;
-            $hasChanged = $previousStatus !== $validated['status']
-                || $previousNote !== $validated['follow_up_note'];
+            $lockedReport = Report::query()->lockForUpdate()->findOrFail($report->id);
+            abort_if($lockedReport->status === Report::STATUS_SELESAI && $validated['status'] !== $lockedReport->status, 422, 'Laporan selesai tidak dapat dibuka kembali.');
+            abort_if(
+                $validated['status'] !== $lockedReport->status
+                    && ! in_array($validated['status'], Report::nextStatuses($lockedReport->status), true),
+                422,
+                'Status laporan harus diperbarui secara berurutan.'
+            );
 
-            if (! $hasChanged) {
+            $needsReferral = $lockedReport->needs_referral || $request->boolean('needs_referral');
+
+            if ($lockedReport->status === $validated['status']
+                && $lockedReport->follow_up_note === $validated['follow_up_note']
+                && $lockedReport->needs_referral === $needsReferral) {
                 return;
             }
 
-            $report->update($validated);
-            $report->statusHistories()->create([
-                'updated_by' => $request->user()->id,
-                'previous_status' => $previousStatus,
-                'status' => $report->status,
-                'note' => $report->follow_up_note,
+            $lockedReport->update([
+                'status' => $validated['status'],
+                'follow_up_note' => $validated['follow_up_note'],
+                'needs_referral' => $needsReferral,
             ]);
 
-            $report->loadMissing(['school', 'reporter']);
-            $report->reporter->notify(new ReportFollowUpUpdated([
+            $lockedReport->loadMissing(['school', 'reporter']);
+            $lockedReport->reporter->notify(new ReportFollowUpUpdated([
                 'title' => 'Tindak lanjut laporan diperbarui',
-                'message' => 'Laporan di '.$report->school->name.' diperbarui oleh '
-                    .$request->user()->name.'. Status: '.ucfirst($report->status)
-                    .'. Catatan: '.$report->follow_up_note,
-                'report_id' => $report->id,
+                'message' => 'Laporan di '.$lockedReport->school->name.' diperbarui oleh '
+                    .$request->user()->name.'. Status: '.ucfirst($lockedReport->status)
+                    .'. Catatan: '.$lockedReport->follow_up_note,
+                'report_id' => $lockedReport->id,
             ]));
         });
 
         return redirect()
             ->route('reports.show', $report)
             ->with('status', 'Status laporan berhasil diperbarui.');
+    }
+
+    public function forward(Request $request, Report $report): RedirectResponse
+    {
+        $validated = $request->validate([
+            'referral_target' => ['required', Rule::in(['sekolah', 'sppg', 'fasilitas_kesehatan', 'pihak_terkait_lain'])],
+            'referral_note' => ['required', 'string', 'min:5', 'max:2000'],
+        ]);
+
+        DB::transaction(function () use ($request, $report, $validated): void {
+            $lockedReport = Report::query()->lockForUpdate()->findOrFail($report->id);
+            abort_unless($lockedReport->needs_referral, 422, 'Pemantau belum menandai laporan untuk diteruskan.');
+            abort_if($lockedReport->referred_at, 422, 'Laporan ini sudah diteruskan.');
+
+            $lockedReport->update([
+                ...$validated,
+                'referred_at' => now(),
+                'referred_by' => $request->user()->id,
+            ]);
+
+            $lockedReport->loadMissing(['school', 'reporter']);
+            $lockedReport->reporter->notify(new ReportFollowUpUpdated([
+                'title' => 'Laporan diteruskan',
+                'message' => 'Laporan di '.$lockedReport->school->name.' diteruskan kepada '
+                    .$validated['referral_target'].'. Catatan: '.$validated['referral_note'],
+                'report_id' => $lockedReport->id,
+            ]));
+        });
+
+        return redirect()
+            ->route('reports.show', $report)
+            ->with('status', 'Penerusan laporan berhasil dicatat.');
     }
 }

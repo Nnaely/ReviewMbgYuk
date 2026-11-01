@@ -110,11 +110,11 @@ Pelapor dapat mengisi laporan dan melihat laporan yang pernah dikirim
 melalui `/laporan`, memfilter berdasarkan sekolah atau status, dan melihat daftar dalam
 sepuluh item per halaman.
 Setiap laporan tersimpan dengan status awal `baru` dan terhubung ke
-akun pelapor serta sekolah. Pemantau dan koordinator dapat melihat daftar laporan masuk
-serta halaman detailnya melalui dasbor. Status dapat diperbarui menjadi `baru`, `diproses`,
-atau `selesai`, dan terlihat oleh pelapor di halaman laporannya. Daftar laporan dapat
-difilter berdasarkan sekolah, status, dan rentang tanggal. Pemantau dan koordinator
-menyertakan catatan tindak lanjut saat memperbarui status; catatan terbaru ditampilkan
+akun pelapor, sekolah, dan jadwal distribusi. Pemantau dan koordinator dapat melihat daftar laporan masuk
+serta halaman detailnya melalui dasbor. Pemantau memperbarui status secara berurutan dari `baru`
+ke `diproses` lalu `selesai`; laporan selesai tidak dapat dibuka kembali. Daftar laporan dapat
+difilter berdasarkan sekolah, status, dan rentang tanggal. Pemantau menyertakan catatan tindak lanjut
+saat memperbarui status; catatan terbaru ditampilkan
 kepada pelapor. Setiap pengiriman laporan dan pembaruan status tercatat dalam riwayat
 beserta catatan, waktu, dan nama pengguna yang melakukan perubahan. Riwayat tersedia
 di halaman detail laporan serta halaman laporan pelapor.
@@ -124,8 +124,18 @@ Bukti pendukung opsional dapat diunggah dalam format JPG, JPEG, PNG, atau PDF hi
 Bukti disimpan secara privat dan hanya dapat dibuka oleh pelapor pemilik laporan serta
 pemantau atau koordinator yang masuk ke aplikasi.
 Pelapor dapat memperbaiki laporannya sendiri selama status masih `baru`.
+Pemantau dapat menandai laporan untuk diteruskan. Koordinator kemudian mencatat tujuan
+penerusan (sekolah, SPPG, fasilitas kesehatan, atau pihak terkait lain) beserta catatannya;
+penerusan hanya dapat dicatat satu kali dan status laporan tetap berada dalam alur pemantauan.
 Dasbor setiap peran menampilkan jumlah laporan keseluruhan serta jumlah per status;
 ringkasan pelapor hanya menghitung laporan miliknya.
+
+### Aturan bisnis laporan
+
+- Pelapor hanya dapat memperbaiki laporan miliknya sendiri selama status `baru`.
+- Pemantau memajukan status satu tahap pada satu waktu; laporan `selesai` tidak dibuka kembali.
+- Koordinator hanya meneruskan laporan yang telah ditandai pemantau, dan setiap laporan hanya diteruskan satu kali.
+- Jadwal distribusi yang sudah terhubung dengan laporan tidak dapat dihapus.
 
 ## Migrasi peran pengguna
 

@@ -54,8 +54,12 @@ Route::middleware('auth')->group(function () {
         ->name('reports.show');
 
     Route::patch('/laporan-masuk/{report}', [\App\Http\Controllers\ReportController::class, 'update'])
-        ->middleware('role:pemantau,koordinator')
+        ->middleware('role:pemantau')
         ->name('reports.update');
+
+    Route::patch('/laporan-masuk/{report}/penerusan', [\App\Http\Controllers\ReportController::class, 'forward'])
+        ->middleware('role:koordinator')
+        ->name('reports.forward');
 
     Route::get('/distribusi', [\App\Http\Controllers\DistributionController::class, 'index'])
         ->middleware('role:pemantau,koordinator')
