@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <title>Masuk | MBG Komunitas</title>
+    <title>Masuk | ReviewMbgYuk!</title>
     <style>
         body { margin: 0; background: #f7f7f2; color: #252b26; font-family: Arial, sans-serif; }
         main { width: min(400px, calc(100% - 40px)); margin: 12vh auto; }
@@ -19,7 +19,7 @@
 </head>
 <body>
     <main>
-        <a href="{{ route('beranda') }}">MBG Komunitas</a>
+        <a href="{{ route('beranda') }}">ReviewMbgYuk!</a>
         <h1>Masuk</h1>
         <p>Gunakan akun demo untuk masuk ke aplikasi.</p>
 

@@ -1,6 +1,6 @@
-# Pondasi Laravel MBG
+# ReviewMbgYuk!
 
-Kerangka awal Laravel 12 untuk Mini Project Proyek 3 Kasus A MBG.
+ReviewMbgYuk! adalah aplikasi Laravel 12 untuk pemantauan dan pelaporan distribusi MBG.
 Saat ini tersedia struktur Laravel serta pondasi data sekolah, distribusi makanan,
 dan kolom peran pengguna.
 Halaman welcome Laravel menyediakan tautan masuk dan tombol keluar untuk pengguna
