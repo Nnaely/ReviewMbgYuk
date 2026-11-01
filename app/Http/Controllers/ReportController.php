@@ -35,10 +35,28 @@ class ReportController extends Controller
 
     public function inbox(): View
     {
+        $filters = request()->validate([
+            'school_id' => ['nullable', 'integer', 'exists:schools,id'],
+            'status' => ['nullable', Rule::in(['baru', 'diproses', 'selesai'])],
+        ]);
+
+        $reportsQuery = Report::with(['school', 'reporter']);
+
+        if (! empty($filters['school_id'])) {
+            $reportsQuery->where('school_id', $filters['school_id']);
+        }
+
+        if (! empty($filters['status'])) {
+            $reportsQuery->where('status', $filters['status']);
+        }
+
         return view('reports.inbox', [
-            'reports' => Report::with(['school', 'reporter'])
+            'schools' => School::query()->orderBy('name')->get(['id', 'name']),
+            'filters' => $filters,
+            'reports' => $reportsQuery
                 ->latest()
-                ->paginate(15),
+                ->paginate(15)
+                ->withQueryString(),
         ]);
     }
 
