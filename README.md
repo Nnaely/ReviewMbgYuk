@@ -105,6 +105,8 @@ menyertakan catatan tindak lanjut saat memperbarui status; catatan terbaru ditam
 kepada pelapor. Setiap pengiriman laporan dan pembaruan status tercatat dalam riwayat
 beserta catatan, waktu, dan nama pengguna yang melakukan perubahan. Riwayat tersedia
 di halaman detail laporan serta halaman laporan pelapor.
+Foto bukti opsional dapat diunggah dalam format JPG, PNG, atau WebP hingga 5 MB.
+Jalankan `php artisan storage:link` agar foto dapat ditampilkan dari penyimpanan publik.
 
 ## Migrasi peran pengguna
 

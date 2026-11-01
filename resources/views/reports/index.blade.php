@@ -22,7 +22,7 @@
             </ul>
         @endif
 
-        <form method="POST" action="{{ route('reports.store') }}">
+        <form method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
             @csrf
             <label for="distribution_id">Jadwal distribusi</label>
             <select id="distribution_id" name="distribution_id" required>
@@ -36,6 +36,9 @@
 
             <label for="description">Isi laporan</label>
             <textarea id="description" name="description" rows="5" minlength="10" maxlength="2000" required>{{ old('description') }}</textarea>
+
+            <label for="photo">Foto bukti (opsional, maksimal 5 MB)</label>
+            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp">
 
             <button type="submit">Kirim laporan</button>
         </form>
@@ -68,6 +71,9 @@
                 <h3>{{ $report->school->name }}</h3>
                 @if ($report->distribution)
                     <p>Distribusi: {{ $report->distribution->distribution_date->format('d-m-Y') }} — {{ $report->distribution->menu_description }}</p>
+                @endif
+                @if ($report->photo_path)
+                    <p><img src="{{ asset('storage/'.$report->photo_path) }}" alt="Foto bukti laporan" width="320"></p>
                 @endif
                 <p>{{ $report->description }}</p>
                 <p>Status: {{ ucfirst($report->status) }}</p>

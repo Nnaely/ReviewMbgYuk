@@ -9,7 +9,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Throwable;
 
 class ReportController extends Controller
 {
@@ -44,21 +46,39 @@ class ReportController extends Controller
         $validated = $request->validate([
             'distribution_id' => ['required', 'integer', 'exists:distributions,id'],
             'description' => ['required', 'string', 'min:10', 'max:2000'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ]);
 
-        DB::transaction(function () use ($request, $validated): void {
-            $distribution = Distribution::query()->findOrFail($validated['distribution_id']);
-            $report = $request->user()->reports()->create([
-                'school_id' => $distribution->school_id,
-                'distribution_id' => $distribution->id,
-                'description' => $validated['description'],
-            ]);
-            $report->statusHistories()->create([
-                'updated_by' => $request->user()->id,
-                'status' => $report->status,
-                'note' => 'Laporan dibuat oleh pelapor.',
-            ]);
-        });
+        $photo = $validated['photo'] ?? null;
+        unset($validated['photo']);
+        $photoPath = $photo?->storePublicly('laporan/bukti', 'public');
+
+        if ($photo && ! $photoPath) {
+            return back()->withErrors(['photo' => 'Foto bukti gagal disimpan.'])->withInput();
+        }
+
+        try {
+            DB::transaction(function () use ($request, $validated, $photoPath): void {
+                $distribution = Distribution::query()->findOrFail($validated['distribution_id']);
+                $report = $request->user()->reports()->create([
+                    'school_id' => $distribution->school_id,
+                    'distribution_id' => $distribution->id,
+                    'description' => $validated['description'],
+                    'photo_path' => $photoPath,
+                ]);
+                $report->statusHistories()->create([
+                    'updated_by' => $request->user()->id,
+                    'status' => $report->status,
+                    'note' => 'Laporan dibuat oleh pelapor.',
+                ]);
+            });
+        } catch (Throwable $exception) {
+            if ($photoPath) {
+                Storage::disk('public')->delete($photoPath);
+            }
+
+            throw $exception;
+        }
 
         return redirect()
             ->route('reports.index')

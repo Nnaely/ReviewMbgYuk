@@ -45,6 +45,11 @@
 
             <dt>Isi laporan</dt>
             <dd>{{ $report->description }}</dd>
+
+            @if ($report->photo_path)
+                <dt>Foto bukti</dt>
+                <dd><img src="{{ asset('storage/'.$report->photo_path) }}" alt="Foto bukti laporan" width="480"></dd>
+            @endif
         </dl>
 
         <h2>Riwayat tindak lanjut</h2>

@@ -13,6 +13,7 @@ class Report extends Model
         'school_id',
         'distribution_id',
         'description',
+        'photo_path',
         'status',
         'follow_up_note',
     ];
