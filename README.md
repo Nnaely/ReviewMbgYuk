@@ -94,6 +94,12 @@ menu jadwal yang ada tanpa mengubah sekolahnya. Jadwal yang belum dipakai lapora
 dihapus koordinator; jadwal yang sudah dipakai tidak dapat dihapus. Pemantau hanya dapat
 melihat daftar distribusi.
 
+## Pengelolaan sekolah
+
+Koordinator dapat menambah sekolah dengan nama dan alamat, serta mengubah data sekolah
+yang sudah tersimpan. Nama sekolah harus unik. Data sekolah yang dipakai jadwal distribusi
+atau laporan tidak dihapus melalui fitur ini.
+
 ## Pelaporan dasar
 
 Pelapor dapat memilih jadwal distribusi sekolah, mengisi laporan, dan melihat laporan yang pernah dikirim

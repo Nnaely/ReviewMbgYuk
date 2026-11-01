@@ -47,6 +47,9 @@
             <p><a href="{{ route('distributions.index') }}">Lihat distribusi makanan</a></p>
             <p><a href="{{ route('reports.inbox') }}">Lihat laporan masuk</a></p>
         @endif
+        @if (auth()->user()->isKoordinator())
+            <p><a href="{{ route('schools.index') }}">Kelola data sekolah</a></p>
+        @endif
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit">Keluar</button>

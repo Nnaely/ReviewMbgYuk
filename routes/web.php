@@ -65,6 +65,22 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:koordinator')
         ->name('distributions.destroy');
 
+    Route::get('/sekolah', [\App\Http\Controllers\SchoolController::class, 'index'])
+        ->middleware('role:koordinator')
+        ->name('schools.index');
+
+    Route::post('/sekolah', [\App\Http\Controllers\SchoolController::class, 'store'])
+        ->middleware('role:koordinator')
+        ->name('schools.store');
+
+    Route::get('/sekolah/{school}/edit', [\App\Http\Controllers\SchoolController::class, 'edit'])
+        ->middleware('role:koordinator')
+        ->name('schools.edit');
+
+    Route::patch('/sekolah/{school}', [\App\Http\Controllers\SchoolController::class, 'update'])
+        ->middleware('role:koordinator')
+        ->name('schools.update');
+
     Route::get('/area/pelapor', [AreaController::class, 'pelapor'])
         ->middleware('role:pelapor')
         ->name('area.pelapor');
