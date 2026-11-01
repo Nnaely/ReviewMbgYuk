@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AreaController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [\App\Http\Controllers\AuthController::class, 'showLogin'])->name('login');
@@ -44,15 +45,15 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:pemantau,koordinator')
         ->name('distributions.index');
 
-    Route::view('/area/pelapor', 'areas.role', ['namaPeran' => 'Pelapor'])
+    Route::get('/area/pelapor', [AreaController::class, 'pelapor'])
         ->middleware('role:pelapor')
         ->name('area.pelapor');
 
-    Route::view('/area/pemantau', 'areas.role', ['namaPeran' => 'Pemantau'])
+    Route::get('/area/pemantau', [AreaController::class, 'pemantau'])
         ->middleware('role:pemantau')
         ->name('area.pemantau');
 
-    Route::view('/area/koordinator', 'areas.role', ['namaPeran' => 'Koordinator'])
+    Route::get('/area/koordinator', [AreaController::class, 'koordinator'])
         ->middleware('role:koordinator')
         ->name('area.koordinator');
 });

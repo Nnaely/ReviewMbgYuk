@@ -108,6 +108,8 @@ di halaman detail laporan serta halaman laporan pelapor.
 Foto bukti opsional dapat diunggah dalam format JPG, PNG, atau WebP hingga 5 MB.
 Foto disimpan secara privat dan hanya dapat dibuka oleh pelapor pemilik laporan serta
 pemantau atau koordinator yang masuk ke aplikasi.
+Dasbor setiap peran menampilkan jumlah laporan keseluruhan serta jumlah per status;
+ringkasan pelapor hanya menghitung laporan miliknya.
 
 ## Migrasi peran pengguna
 

@@ -9,7 +9,19 @@
     <main>
         <h1>Dasbor {{ $namaPeran }}</h1>
         <p>Selamat datang, {{ auth()->user()->name }}.</p>
-        <p>Ini halaman awal untuk peran {{ strtolower($namaPeran) }}.</p>
+        <section aria-labelledby="ringkasan-laporan">
+            <h2 id="ringkasan-laporan">Ringkasan {{ auth()->user()->isPelapor() ? 'laporan saya' : 'laporan masuk' }}</h2>
+            <dl>
+                <dt>Total laporan</dt>
+                <dd>{{ $jumlahLaporan }}</dd>
+                <dt>Baru</dt>
+                <dd>{{ $jumlahPerStatus['baru'] }}</dd>
+                <dt>Diproses</dt>
+                <dd>{{ $jumlahPerStatus['diproses'] }}</dd>
+                <dt>Selesai</dt>
+                <dd>{{ $jumlahPerStatus['selesai'] }}</dd>
+            </dl>
+        </section>
         @if (auth()->user()->isPelapor())
             <p><a href="{{ route('reports.index') }}">Buat laporan</a></p>
         @endif
